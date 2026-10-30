@@ -1,19 +1,36 @@
 import "./ITunesPage.css";
-import { type FC, useState } from "react";
+import { type FC, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { type ITunesMusic, getMusicByName } from "../modules/itunesApi";
+import { getMusicByName } from "../modules/itunesApi";
 import { InputField } from "../components/InputField";
 import { ROUTES } from "../Routes";
 import { MusicCard } from "../components/MusicCard";
 import { type AppOutletContext } from "../AppLayout";
+import { SONGS_MOCK } from "../modules/mock";
 
 const ITunesPage: FC = () => {
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
-  const [music, setMusic] = useState<ITunesMusic[]>([]);
+  const [music, setMusic] = useState(SONGS_MOCK.results);
   const { setCards } = useOutletContext<AppOutletContext>();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setCards(SONGS_MOCK.results);
+  }, [setCards]);
+
+  const applyMock = () => {
+    const results = SONGS_MOCK.results.filter((item) =>
+      item.collectionCensoredName
+        .toLowerCase()
+        .startsWith(searchValue.toLowerCase())
+    );
+    const list = results.length ? results : SONGS_MOCK.results;
+    setMusic(list);
+    setCards(list);
+    setLoading(false);
+  };
 
   const handleSearch = () => {
     setLoading(true);
@@ -22,10 +39,15 @@ const ITunesPage: FC = () => {
         const results = response.results.filter(
           (item) => item.wrapperType === "track"
         );
-        setMusic(results);
-        setCards(results);
-        setLoading(false);
-      });
+        if (results.length) {
+          setMusic(results);
+          setCards(results);
+          setLoading(false);
+          return;
+        }
+        applyMock();
+      })
+      .catch(applyMock);
   };
 
   const handleCardClick = (trackId: number) => {

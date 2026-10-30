@@ -5,8 +5,9 @@ import { Button, Spinner } from "react-bootstrap";
 import { type ITunesMusic, getTrackById } from "../modules/itunesApi";
 import { ROUTES } from "../Routes";
 import { type AppOutletContext } from "../AppLayout";
+import { SONGS_MOCK } from "../modules/mock";
 
-const defaultImage = "/DefaultImage.jpg";
+const defaultImage = "/DefaultImage.png";
 
 export const DetailPage: FC = () => {
   const [pageData, setPageData] = useState<ITunesMusic>();
@@ -23,9 +24,19 @@ export const DetailPage: FC = () => {
       return;
     }
 
-    getTrackById(id).then((response) => {
-      setPageData(response.results[0]);
-    });
+    getTrackById(id)
+      .then((response) => {
+        const data = response.results[0];
+        setPageData(
+          data ??
+            SONGS_MOCK.results.find((track) => String(track.trackId) === id)
+        );
+      })
+      .catch(() =>
+        setPageData(
+          SONGS_MOCK.results.find((track) => String(track.trackId) === id)
+        )
+      );
   }, [id, cards]);
 
   const handleNext = () => {

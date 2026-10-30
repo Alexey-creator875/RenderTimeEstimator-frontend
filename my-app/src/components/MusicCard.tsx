@@ -15,12 +15,14 @@ export const MusicCard: FC<ICardProps> = ({
   collectionCensoredName,
   onClick,
 }) => {
+  const defaultImage = "/DefaultImage.png";
+
   return (
     <Card className="card" onClick={onClick}>
       <Card.Img
         className="cardImage"
         variant="top"
-        src={artworkUrl100}
+        src={artworkUrl100 || defaultImage}
         height={100}
         width={100}
       />
