@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 12px;
+}
+.containerLoading {
+    filter: blur(8px);
+}
+
+.cardsList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
