@@ -1,6 +1,7 @@
 import "./RenderServerUnitsPage.css";
 import { type FC, useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import { Container, Col, Row } from "react-bootstrap";
 // import { getRenderServerUnitsByRam } from "../modules/renderServerUnitsApi";
 import { RamFilter } from "../components/RamFilter";
 import { ROUTES } from "../Routes";
@@ -41,7 +42,7 @@ const RenderServerUnitsPage: FC = () => {
   };
 
   return (
-    <div className="container">
+    <Container className="unitsPage">
       <RamFilter
         min={MIN_RAM}
         minValue={minValue}
@@ -59,18 +60,19 @@ const RenderServerUnitsPage: FC = () => {
             <h1>Ничего не найдено</h1>
           </div>
         ) : (
-          <div className="cardsList">
+          <Row xs={2} className="g-3">
             {renderServerUnits.map((item) => (
-              <RenderServerUnitCard
-                key={item.id}
-                onClick={() => handleCardClick(item.id)}
-                {...item}
-              />
+              <Col key={item.id}>
+                <RenderServerUnitCard
+                  onClick={() => handleCardClick(item.id)}
+                  {...item}
+                />
+              </Col>
             ))}
-          </div>
+          </Row>
         )
       }
-    </div>
+    </Container>
   );
 };
 
