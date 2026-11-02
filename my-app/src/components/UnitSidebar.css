@@ -1,0 +1,25 @@
+.unitSidebar {
+  align-items: center;
+}
+
+.unitSidebarItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.unitSidebarIcon {
+  width: 35px;
+  height: 35px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.unitSidebar .unitSidebarNext {
+  padding: 0;
+  line-height: 0;
+}

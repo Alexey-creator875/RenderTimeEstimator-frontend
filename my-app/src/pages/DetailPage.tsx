@@ -1,13 +1,16 @@
 import "./DetailPage.css";
 import { type FC, useEffect, useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { Button, Spinner } from "react-bootstrap";
-import { type RenderServerUnit, /* getRenderServerUnitById */ } from "../modules/renderServerUnitsApi";
+import { Spinner } from "react-bootstrap";
+import { UnitDescription } from "../components/UnitDescription";
+import { UnitSidebar } from "../components/UnitSidebar";
+import { type RenderServerUnit } from "../modules/renderServerUnitsApi";
 import { ROUTES } from "../Routes";
 import { type AppOutletContext } from "../AppLayout";
 import { RENDER_SERVER_UNITS_MOCK } from "../modules/mock";
 
-const defaultImage = "/DefaultImage.png";
+const DEFAULT_IMAGE = "/default-image.png";
+const DEFAULT_VIDEO = "/default-video.mp4";
 
 export const DetailPage: FC = () => {
   const [pageData, setPageData] = useState<RenderServerUnit>();
@@ -27,20 +30,6 @@ export const DetailPage: FC = () => {
     setPageData(
       RENDER_SERVER_UNITS_MOCK.renderServerUnits.find((renderServerUnit) => String(renderServerUnit.id) === id)
     )
-
-    // getRenderServerUnitById(id)
-    //   .then((response) => {
-    //     const data = response.renderServerUnits[0];
-    //     setPageData(
-    //       data ??
-    //         RENDER_SERVER_UNITS_MOCK.renderServerUnits.find((renderServerUnit) => String(renderServerUnit.id) === id)
-    //     );
-    //   })
-    //   .catch(() =>
-    //     setPageData(
-    //       RENDER_SERVER_UNITS_MOCK.renderServerUnits.find((renderServerUnit) => String(renderServerUnit.id) === id)
-    //     )
-    //   );
   }, [id, cards]);
 
   const handleNext = () => {
@@ -48,7 +37,7 @@ export const DetailPage: FC = () => {
     const currentIndex = cards.findIndex(
       (item) => String(item.id) === id
     );
-    const nextItem = cards[currentIndex + 1];
+    const nextItem = cards[currentIndex + 1] ?? cards[0];
     if (nextItem) {
       navigate(`${ROUTES.DETAIL}/${nextItem.id}`);
     }
@@ -64,28 +53,31 @@ export const DetailPage: FC = () => {
 
   return (
     <div className="detailPage">
-      {pageData.video ? (
-        <video
-          className="detailVideo"
-          src={pageData.video}
-          autoPlay
-          loop
-          muted
-          playsInline
-        />
-      ) : (
-        <img
-          className="detailVideo"
-          src={pageData.video || defaultImage}
-          alt={pageData.processor}
-        />
-      )}
+      <video
+        className="detailVideo"
+        src={pageData.video || DEFAULT_VIDEO}
+        autoPlay
+        loop
+        muted
+        playsInline
+      />
+
       <div className="detailOverlay">
-        <div className="detailTitle">{pageData.processor}</div>
-        <div className="detailArtist">{pageData.ram}</div>
-        <Button className="detailNextBtn" variant="light" onClick={handleNext}>
-          Далее
-        </Button>
+        <div className="detailOverlayLeft">
+          <UnitDescription
+            key={pageData.id}
+            title={pageData.processor}
+            description={pageData.description}
+          />
+        </div>
+        <div className="detailOverlayRight">
+          <UnitSidebar
+            likes={pageData.likes_number}
+            cores={pageData.cores}
+            ram={pageData.ram}
+            onNext={handleNext}
+          />
+        </div>
       </div>
     </div>
   );

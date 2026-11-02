@@ -1,24 +1,58 @@
-.card {
-    padding: 8px;
+.unitCard {
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-.loadingBg {
-    z-index: 999;
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.unitCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
-.textStyle {
-    height:48px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    margin-bottom:12px;
+
+.unitCardImage {
+  object-fit: cover;
+  background: #f0f0f0;
 }
-.cardImage {
-    object-fit: contain;
+
+.unitCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
 }
-.cardButton {
-    width: 100%;
+
+.unitCardTitle {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.unitCardSpec {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #555;
+}
+
+.unitCardFooter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #fff;
+  border-top: 1px solid #eee;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.unitCardLike {
+  width: 20px;
+  height: 20px;
 }
