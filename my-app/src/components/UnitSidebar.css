@@ -1,5 +1,7 @@
 .unitSidebar {
   align-items: center;
+  flex: 0 0 auto;
+  align-self: center;
 }
 
 .unitSidebarItem {
@@ -22,4 +24,17 @@
 .unitSidebar .unitSidebarNext {
   padding: 0;
   line-height: 0;
+}
+
+.unitSidebar .unitSidebarNext .unitSidebarIcon {
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.unitSidebar .unitSidebarNext:hover .unitSidebarIcon {
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.9));
+}
+
+.unitSidebar .unitSidebarNext:active .unitSidebarIcon {
+  transform: scale(0.9);
 }

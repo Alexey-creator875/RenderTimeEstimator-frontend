@@ -9,7 +9,6 @@ import { ROUTES } from "../Routes";
 import { type AppOutletContext } from "../AppLayout";
 import { RENDER_SERVER_UNITS_MOCK } from "../modules/mock";
 
-const DEFAULT_IMAGE = "/default-image.png";
 const DEFAULT_VIDEO = "/default-video.mp4";
 
 export const DetailPage: FC = () => {
@@ -62,20 +61,21 @@ export const DetailPage: FC = () => {
         playsInline
       />
 
+      
       <div className="detailOverlay">
-        <div className="detailOverlayLeft">
-          <UnitDescription
-            key={pageData.id}
-            title={pageData.processor}
-            description={pageData.description}
-          />
-        </div>
         <div className="detailOverlayRight">
           <UnitSidebar
             likes={pageData.likes_number}
             cores={pageData.cores}
             ram={pageData.ram}
             onNext={handleNext}
+          />
+        </div>
+        <div className="detailOverlayLeft">
+          <UnitDescription
+            key={pageData.id}
+            title={pageData.processor}
+            description={pageData.description}
           />
         </div>
       </div>

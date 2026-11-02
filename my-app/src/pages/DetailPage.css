@@ -16,21 +16,24 @@
   position: absolute;
   inset: 0;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   padding: 20px;
   pointer-events: none;
   background: linear-gradient(transparent 55%, rgba(0, 0, 0, 0.6));
 }
 
-.detailOverlayLeft {
+.detailOverlayRight {
   flex: 1;
-  min-width: 0;
-  align-self: flex-end;
-  margin-right: 12px;
-  pointer-events: auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.detailOverlayRight {
-  align-self: center;
+.detailOverlayLeft {
+  margin-top: 12px;
+}
+
+.detailOverlayRight > *,
+.detailOverlayLeft {
   pointer-events: auto;
 }
