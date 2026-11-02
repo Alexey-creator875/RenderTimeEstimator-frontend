@@ -2,7 +2,7 @@ import "./DetailPage.css";
 import { type FC, useEffect, useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { Button, Spinner } from "react-bootstrap";
-import { type RenderServerUnit, getRenderServerUnitById } from "../modules/renderServerUnitsApi";
+import { type RenderServerUnit, /* getRenderServerUnitById */ } from "../modules/renderServerUnitsApi";
 import { ROUTES } from "../Routes";
 import { type AppOutletContext } from "../AppLayout";
 import { RENDER_SERVER_UNITS_MOCK } from "../modules/mock";
@@ -24,19 +24,23 @@ export const DetailPage: FC = () => {
       return;
     }
 
-    getRenderServerUnitById(id)
-      .then((response) => {
-        const data = response.renderServerUnits[0];
-        setPageData(
-          data ??
-            RENDER_SERVER_UNITS_MOCK.renderServerUnits.find((renderServerUnit) => String(renderServerUnit.id) === id)
-        );
-      })
-      .catch(() =>
-        setPageData(
-          RENDER_SERVER_UNITS_MOCK.renderServerUnits.find((renderServerUnit) => String(renderServerUnit.id) === id)
-        )
-      );
+    setPageData(
+      RENDER_SERVER_UNITS_MOCK.renderServerUnits.find((renderServerUnit) => String(renderServerUnit.id) === id)
+    )
+
+    // getRenderServerUnitById(id)
+    //   .then((response) => {
+    //     const data = response.renderServerUnits[0];
+    //     setPageData(
+    //       data ??
+    //         RENDER_SERVER_UNITS_MOCK.renderServerUnits.find((renderServerUnit) => String(renderServerUnit.id) === id)
+    //     );
+    //   })
+    //   .catch(() =>
+    //     setPageData(
+    //       RENDER_SERVER_UNITS_MOCK.renderServerUnits.find((renderServerUnit) => String(renderServerUnit.id) === id)
+    //     )
+    //   );
   }, [id, cards]);
 
   const handleNext = () => {

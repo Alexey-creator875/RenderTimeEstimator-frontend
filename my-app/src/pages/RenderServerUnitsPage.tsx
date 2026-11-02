@@ -2,7 +2,7 @@ import "./RenderServerUnitsPage.css";
 import { type FC, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { getRenderServerUnitsByRam } from "../modules/renderServerUnitsApi";
+// import { getRenderServerUnitsByRam } from "../modules/renderServerUnitsApi";
 import { InputField } from "../components/InputField";
 import { ROUTES } from "../Routes";
 import { RenderServerUnitCard } from "../components/RenderServerUnitCard";
@@ -32,24 +32,25 @@ const RenderServerUnitsPage: FC = () => {
 
   const handleSearch = () => {
     setLoading(true);
-    getRenderServerUnitsByRam(8)
-      .then((response) => {
-        // const results = response.results.filter(
-        //   (item) => item.status === "published"
-        // );
-        const results = response.renderServerUnits
-        if (results.length) {
-          setRenderServerUnits(results);
-          setCards(results);
-          setLoading(false);
-          return;
-        }
-        applyMock();
-      })
-      .catch((error) => {
-        console.error(error);
-        applyMock();
-      });
+    applyMock();
+  //   getRenderServerUnitsByRam(8)
+  //     .then((response) => {
+  //       // const results = response.results.filter(
+  //       //   (item) => item.status === "published"
+  //       // );
+  //       const results = response.renderServerUnits
+  //       if (results.length) {
+  //         setRenderServerUnits(results);
+  //         setCards(results);
+  //         setLoading(false);
+  //         return;
+  //       }
+  //       applyMock();
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //       applyMock();
+  //     });
   };
 
   const handleCardClick = (renderServerUnitId: number) => {

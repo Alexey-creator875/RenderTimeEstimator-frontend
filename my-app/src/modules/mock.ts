@@ -1,4 +1,4 @@
-import { type RenderServerUnitsResult } from "./renderServerUnitsApi";
+import type { RenderServerUnitsResult } from "./renderServerUnitsApi";
 
 export const RENDER_SERVER_UNITS_MOCK: RenderServerUnitsResult = {
   max: 128,
@@ -6,13 +6,64 @@ export const RENDER_SERVER_UNITS_MOCK: RenderServerUnitsResult = {
   renderServerUnits: [
     {
       id: 1,
-      processor: "processor",
-      description: "some",
+      processor: "RTX 2080 Ti",
+      description:
+        "Надёжный выбор для рендеринга и игр. Отличная производительность в 2K и 4K, поддерживает все современные технологии трассировки лучей. Идеально для студийных проектов средней сложности.",
+      status: "published",
+      image: "/2080-Ti.jpg",
+      video: "/2080-Ti.mp4",
+      cores: 20,
+      ram: 16,
+      likes_number: 6,
+      is_mine: false,
+    },
+    {
+      id: 2,
+      processor: "RTX 3090",
+      description:
+        "Флагманская карта с 24 ГБ видеопамяти. Мгновенный рендеринг сложных сцен, работа с нейросетями и 8K-видео. Профессиональный инструмент для 3D-художников и дата-сайентистов.",
+      status: "published",
+      image: "/3090.jpg",
+      video: "/3090.mp4",
+      cores: 20,
+      ram: 24,
+      likes_number: 4,
+      is_mine: false,
+    },
+    {
+      id: 3,
+      processor: "RTX 4090",
+      description:
+        "Абсолютный лидер производительности. Справляется с самыми тяжёлыми задачами: симуляция физики, объёмная визуализация, рендеринг в реальном времени. Будущее уже сегодня.",
+      status: "published",
+      image: "/4090.png",
+      video: "/4090.mp4",
+      cores: 20,
+      ram: 24,
+      likes_number: 4,
+      is_mine: false,
+    },
+    {
+      id: 4,
+      processor: "new processor",
+      description: "new description",
       status: "published",
       image: "",
       video: "",
-      cores: 0,
-      ram: 0,
+      cores: 24,
+      ram: 32,
+      likes_number: 0,
+      is_mine: false,
+    },
+    {
+      id: 5,
+      processor: "new processor",
+      description: "new description",
+      status: "published",
+      image: "",
+      video: "",
+      cores: 24,
+      ram: 32,
       likes_number: 0,
       is_mine: false,
     },
