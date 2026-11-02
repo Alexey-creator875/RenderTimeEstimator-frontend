@@ -1,7 +1,8 @@
 import "./TabBar.css";
 import { type FC } from "react";
+import { Navbar, Nav } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ROUTES} from "../Routes";
+import { ROUTES } from "../Routes";
 import { type RenderServerUnit } from "../modules/renderServerUnitsApi";
 
 interface Props {
@@ -25,35 +26,21 @@ export const TabBar: FC<Props> = ({ cards }) => {
   };
 
   return (
-    <nav className="tabBar">
-      <button
-        type="button"
-        className={`tabBarItem ${isList ? "tabBarItemActive" : ""}`}
-        onClick={goToList}
-      >
-        <img className="tabBarIcon" src="./grid.png" alt="Список" />
-      </button>
-      <button
-        type="button"
-        className={`tabBarItem ${isDetail ? "tabBarItemActive" : ""}`}
-        onClick={goToDetail}
-      >
-        <img className="tabBarIcon" src="./home.png" alt="Подробнее" />
-      </button>
-      <button
-        type="button"
-        className={`tabBarItem`}
-        onClick={() => {}}
-      >
-        <img className="tabBarIcon" src="./add.png" alt="Добавить" />
-      </button>
-      <button
-        type="button"
-        className={`tabBarItem`}
-        onClick={() => {}}
-      >
-        <img className="tabBarIcon" src="./auth.png" alt="Войти" />
-      </button>
-    </nav>
+    <Navbar fixed="bottom" className="tabBar">
+      <Nav className="tabBarNav">
+        <Nav.Link active={isDetail} onClick={goToDetail}>
+          <img className="tabBarIcon" src="/home.png" alt="Лента" />
+        </Nav.Link>
+        <Nav.Link disabled>
+          <img className="tabBarIcon" src="/add.png" alt="Добавление" />
+        </Nav.Link>
+        <Nav.Link active={isList} onClick={goToList}>
+          <img className="tabBarIcon" src="/grid.png" alt="Плитка" />
+        </Nav.Link>
+        <Nav.Link disabled>
+          <img className="tabBarIcon" src="/auth.png" alt="Вход" />
+        </Nav.Link>
+      </Nav>
+    </Navbar>
   );
 };

@@ -1,0 +1,66 @@
+.ramFilter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.ramFilterLabel {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.ramFilterRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ramSlider {
+  position: relative;
+  flex: 1;
+  height: 40px;
+}
+
+/* общая линия */
+.ramSlider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 4px;
+  transform: translateY(-50%);
+  border-radius: 2px;
+  background: #d1d1d1;
+}
+
+.ramSlider .ramRange {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 40px;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* прозрачные дорожки самих input */
+.ramSlider .ramRange::-webkit-slider-runnable-track {
+  background: transparent;
+}
+.ramSlider .ramRange::-moz-range-track {
+  background: transparent;
+}
+
+/* бегунки ловят клики и красятся в основной цвет */
+.ramSlider .ramRange::-webkit-slider-thumb {
+  pointer-events: auto;
+  background: #007aff;
+}
+.ramSlider .ramRange::-moz-range-thumb {
+  pointer-events: auto;
+  background: #007aff;
+}
