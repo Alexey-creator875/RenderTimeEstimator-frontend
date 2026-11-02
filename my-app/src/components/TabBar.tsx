@@ -31,16 +31,28 @@ export const TabBar: FC<Props> = ({ cards }) => {
         className={`tabBarItem ${isList ? "tabBarItemActive" : ""}`}
         onClick={goToList}
       >
-        <span className="tabBarIcon">☰</span>
-        {ROUTE_LABELS.LIST}
+        <img className="tabBarIcon" src="./grid.png" alt="Список" />
       </button>
       <button
         type="button"
         className={`tabBarItem ${isDetail ? "tabBarItemActive" : ""}`}
         onClick={goToDetail}
       >
-        <span className="tabBarIcon">▶</span>
-        {ROUTE_LABELS.DETAIL}
+        <img className="tabBarIcon" src="./home.png" alt="Подробнее" />
+      </button>
+      <button
+        type="button"
+        className={`tabBarItem`}
+        onClick={() => {}}
+      >
+        <img className="tabBarIcon" src="./add.png" alt="Добавить" />
+      </button>
+      <button
+        type="button"
+        className={`tabBarItem`}
+        onClick={() => {}}
+      >
+        <img className="tabBarIcon" src="./auth.png" alt="Войти" />
       </button>
     </nav>
   );
