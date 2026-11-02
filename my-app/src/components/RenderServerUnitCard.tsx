@@ -1,18 +1,20 @@
 import { type FC } from "react";
 import { Card } from "react-bootstrap";
-import "./MusicCard.css";
+import "./RenderServerUnitCard.css";
 
-interface ICardProps {
-  artworkUrl100: string;
-  artistName: string;
-  collectionCensoredName: string;
+interface RenderServerUnitCardProps {
+  processor: string;
+  image: string;
+  cores: number;
+  ram: number;
   onClick: () => void;
 }
 
-export const MusicCard: FC<ICardProps> = ({
-  artworkUrl100,
-  artistName,
-  collectionCensoredName,
+export const RenderServerUnitCard: FC<RenderServerUnitCardProps> = ({
+  processor,
+  image,
+  cores,
+  ram,
   onClick,
 }) => {
   const defaultImage = "/DefaultImage.png";
@@ -22,16 +24,17 @@ export const MusicCard: FC<ICardProps> = ({
       <Card.Img
         className="cardImage"
         variant="top"
-        src={artworkUrl100 || defaultImage}
+        src={image || defaultImage}
         height={100}
         width={100}
       />
       <Card.Body>
         <div className="textStyle">
-          <Card.Title>{collectionCensoredName}</Card.Title>
+          <Card.Title>{processor}</Card.Title>
         </div>
         <div className="textStyle">
-          <Card.Text>{artistName}</Card.Text>
+          <Card.Text>{cores}</Card.Text>
+          <Card.Text>{ram}</Card.Text>
         </div>
       </Card.Body>
     </Card>

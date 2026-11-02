@@ -1,34 +1,20 @@
-import { type ITunesResult } from "./itunesApi";
+import { type RenderServerUnitsResult } from "./renderServerUnitsApi";
 
-export const SONGS_MOCK: ITunesResult = {
-  resultCount: 3,
-  results: [
+export const RENDER_SERVER_UNITS_MOCK: RenderServerUnitsResult = {
+  max: 128,
+  min: 8,
+  renderServerUnits: [
     {
-      wrapperType: "track",
-      artistName: "Pink Floyd",
-      collectionCensoredName: "The Wall",
-      trackViewUrl: "",
-      artworkUrl100: "",
-      trackId: 1,
-      previewUrl: "",
-    },
-    {
-      wrapperType: "track",
-      artistName: "Queen",
-      collectionCensoredName: "A Night At The Opera",
-      trackViewUrl: "",
-      artworkUrl100: "",
-      trackId: 2,
-      previewUrl: "",
-    },
-    {
-      wrapperType: "track",
-      artistName: "AC/DC",
-      collectionCensoredName: "Made in Heaven",
-      trackViewUrl: "",
-      artworkUrl100: "",
-      trackId: 3,
-      previewUrl: "",
+      id: 1,
+      processor: "processor",
+      description: "some",
+      status: "published",
+      image: "",
+      video: "",
+      cores: 0,
+      ram: 0,
+      likes_number: 0,
+      is_mine: false,
     },
   ],
 };

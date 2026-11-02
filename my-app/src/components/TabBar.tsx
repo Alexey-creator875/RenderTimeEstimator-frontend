@@ -1,11 +1,11 @@
 import "./TabBar.css";
 import { type FC } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ROUTES, ROUTE_LABELS } from "../Routes";
-import { type ITunesMusic } from "../modules/itunesApi";
+import { ROUTES} from "../Routes";
+import { type RenderServerUnit } from "../modules/renderServerUnitsApi";
 
 interface Props {
-  cards: ITunesMusic[];
+  cards: RenderServerUnit[];
 }
 
 export const TabBar: FC<Props> = ({ cards }) => {
@@ -18,7 +18,7 @@ export const TabBar: FC<Props> = ({ cards }) => {
   const goToList = () => navigate(ROUTES.LIST);
 
   const goToDetail = () => {
-    const firstId = cards[0]?.trackId;
+    const firstId = cards[0]?.id;
     if (firstId) {
       navigate(`${ROUTES.DETAIL}/${firstId}`);
     }

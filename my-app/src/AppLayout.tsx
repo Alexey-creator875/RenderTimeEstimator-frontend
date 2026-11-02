@@ -1,16 +1,16 @@
 import { type FC, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { type ITunesMusic } from "./modules/itunesApi";
+import { type RenderServerUnit } from "./modules/renderServerUnitsApi";
 import { TabBar } from "./components/TabBar";
 import "./MobileApp.css";
 
 export interface AppOutletContext {
-  cards: ITunesMusic[];
-  setCards: (cards: ITunesMusic[]) => void;
+  cards: RenderServerUnit[];
+  setCards: (cards: RenderServerUnit[]) => void;
 }
 
 export const AppLayout: FC = () => {
-  const [cards, setCards] = useState<ITunesMusic[]>([]);
+  const [cards, setCards] = useState<RenderServerUnit[]>([]);
 
   return (
     <div className="appShell">
