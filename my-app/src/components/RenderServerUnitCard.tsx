@@ -29,12 +29,6 @@ export const RenderServerUnitCard: FC<RenderServerUnitCardProps> = ({
           className="unitCardImage"
           src={image || DEFAULT_IMAGE}
           alt={processor}
-          onError={(event) => {
-            const img = event.currentTarget;
-            if (!img.src.endsWith(DEFAULT_IMAGE)) {
-              img.src = DEFAULT_IMAGE;
-            }
-          }}
         />
       </Ratio>
 
