@@ -45,8 +45,8 @@ export const RENDER_SERVER_UNITS_MOCK: RenderServerUnitsResult = {
     },
     {
       id: 4,
-      processor: "new processor",
-      description: "new description",
+      processor: "Server 1",
+      description: "Description of Server 1",
       status: "published",
       image: "",
       video: "",
@@ -57,8 +57,8 @@ export const RENDER_SERVER_UNITS_MOCK: RenderServerUnitsResult = {
     },
     {
       id: 5,
-      processor: "new processor",
-      description: "new description",
+      processor: "Server 2",
+      description: "Description of Server 2",
       status: "published",
       image: "",
       video: "",
