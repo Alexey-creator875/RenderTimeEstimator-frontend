@@ -1,13 +1,28 @@
 import "./LoginPage.css";
 import { type FC, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ROUTES } from "../Routes";
+import { setAuthenticatedAction } from "../slices/userSlice";
 
 export const LoginPage: FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleLogin = () => {
-    // TODO: axios-запрос на бэкенд
+  
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("/api/sign-in", { login, password });
+      localStorage.setItem("access_token", response.data.access_token);
+      dispatch(setAuthenticatedAction(true));
+      navigate(ROUTES.LIST);
+    } catch (error) {
+      console.error("Ошибка аутентификации", error);
+    }
   };
 
   return (
