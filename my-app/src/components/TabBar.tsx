@@ -5,11 +5,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../Routes";
 import { type RenderServerUnit } from "../modules/renderServerUnitsApi";
 
+import { useSelector, useDispatch } from "react-redux"
+import { setAuthenticatedAction } from "../slices/userSlice"
+
 interface Props {
   cards: RenderServerUnit[];
 }
 
 export const TabBar: FC<Props> = ({ cards }) => {
+  const isAuth = useSelector((s: any) => s.user.isAuthenticated)
+  const dispatch = useDispatch()
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -41,6 +47,9 @@ export const TabBar: FC<Props> = ({ cards }) => {
           <img className="tabBarIcon" src="/auth.png" alt="Вход" />
         </Nav.Link>
       </Nav>
+      <button onClick={() => dispatch(setAuthenticatedAction(!isAuth))}>
+        isAuthenticated: {String(isAuth)}
+      </button>
     </Navbar>
   );
 };
