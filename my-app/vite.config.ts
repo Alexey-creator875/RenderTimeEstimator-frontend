@@ -9,6 +9,11 @@ export default defineConfig({
         target: "http://host.docker.internal:8080",
         changeOrigin: true,
       },
+      // файлы (изображения и видео) из MinIO (S3)
+      "/render-assets": {
+        target: "http://host.docker.internal:9000",
+        changeOrigin: true,
+      },
     },
     watch: { // нужно для hot-reload при использовании docker
         usePolling: true,

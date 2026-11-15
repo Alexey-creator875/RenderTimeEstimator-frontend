@@ -5,6 +5,7 @@ import {
     type HandlerRenderServerUnitListItem,
 } from "../api/Api";
 import { RENDER_SERVER_UNITS_MOCK } from "../modules/mock";
+import { withProxyMedia } from "../modules/mediaUrl";
 import { setAuthenticatedAction } from "./userSlice";
 
 export const MIN_RAM = 8;
@@ -56,7 +57,7 @@ export const getRenderServerUnits = createAsyncThunk(
                 { min: minValue, max: maxValue },
                 { secure: true }
             );
-            return response.data.renderServerUnits ?? [];
+            return (response.data.renderServerUnits ?? []).map(withProxyMedia);
         } catch {
             // Если бэкенд недоступен, гостю показываем mock-данные
             if (!state.user.isAuthenticated) {
@@ -87,7 +88,7 @@ export const getRenderServerUnit = createAsyncThunk(
             if (!unit) {
                 return rejectWithValue("Сервер не найден");
             }
-            return unit;
+            return withProxyMedia(unit);
         } catch {
             // Если бэкенд недоступен, гостю показываем mock-данные
             if (!state.user.isAuthenticated) {

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../api";
 import { type DsRenderServerUnit } from "../api/Api";
+import { withProxyMedia } from "../modules/mediaUrl";
 import { setAuthenticatedAction } from "./userSlice";
 
 interface DraftState {
@@ -25,7 +26,8 @@ export const getDraft = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await api.api.draftRenderServerUnitsList();
-            return response.data.renderServerUnit ?? null;
+            const unit = response.data.renderServerUnit;
+            return unit ? withProxyMedia(unit) : null;
         } catch (error) {
             return rejectWithValue(getErrorMessage(error, "Ошибка при загрузке черновика"));
         }
@@ -41,7 +43,8 @@ export const createDraft = createAsyncThunk(
     ) => {
         try {
             const response = await api.api.renderServerUnitsCreate(data);
-            return response.data.renderServerUnit ?? null;
+            const unit = response.data.renderServerUnit;
+            return unit ? withProxyMedia(unit) : null;
         } catch (error) {
             return rejectWithValue(getErrorMessage(error, "Не удалось создать черновик"));
         }
