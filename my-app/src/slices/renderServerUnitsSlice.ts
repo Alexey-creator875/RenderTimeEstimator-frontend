@@ -118,6 +118,19 @@ export const likeRenderServerUnit = createAsyncThunk(
     }
 );
 
+// Удаление услуги (мягкое, на бэкенде). Доступно только создателю
+export const deleteRenderServerUnit = createAsyncThunk(
+    "renderServerUnits/deleteRenderServerUnit",
+    async (id: number, { rejectWithValue }) => {
+        try {
+            await api.api.renderServerUnitsDelete(id);
+            return id;
+        } catch {
+            return rejectWithValue("Не удалось удалить услугу");
+        }
+    }
+);
+
 const renderServerUnitsSlice = createSlice({
     name: "renderServerUnits",
     initialState,
@@ -174,6 +187,13 @@ const renderServerUnitsSlice = createSlice({
             })
             .addCase(likeRenderServerUnit.rejected, (state) => {
                 state.likeLoading = false;
+            })
+            .addCase(deleteRenderServerUnit.fulfilled, (state, action) => {
+                // убираем удалённую услугу из списка без повторного запроса
+                state.items = state.items.filter((item) => item.id !== action.payload);
+                if (state.current?.id === action.payload) {
+                    state.current = null;
+                }
             });
     },
 });

@@ -13,6 +13,7 @@ import {
   setMinValueAction,
   setMaxValueAction,
   getRenderServerUnits,
+  deleteRenderServerUnit,
 } from "../slices/renderServerUnitsSlice";
 import { type AppDispatch } from "../store";
 
@@ -37,6 +38,12 @@ const RenderServerUnitsPage: FC = () => {
 
   const handleSearch = () => {
     dispatch(getRenderServerUnits());
+  };
+
+  const handleDelete = (renderServerUnitId?: number) => {
+    if (renderServerUnitId !== undefined) {
+      dispatch(deleteRenderServerUnit(renderServerUnitId));
+    }
   };
 
   const handleCardClick = (renderServerUnitId?: number) => {
@@ -78,6 +85,7 @@ const RenderServerUnitsPage: FC = () => {
             <Col key={item.id}>
               <RenderServerUnitCard
                 onClick={() => handleCardClick(item.id)}
+                onDelete={() => handleDelete(item.id)}
                 {...item}
               />
             </Col>

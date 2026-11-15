@@ -10,7 +10,9 @@ interface RenderServerUnitCardProps {
   cores?: number;
   ram?: number;
   likes_number?: number;
+  is_mine?: boolean;
   onClick: () => void;
+  onDelete?: () => void;
 }
 
 export const RenderServerUnitCard: FC<RenderServerUnitCardProps> = ({
@@ -19,7 +21,9 @@ export const RenderServerUnitCard: FC<RenderServerUnitCardProps> = ({
   cores,
   ram,
   likes_number,
+  is_mine,
   onClick,
+  onDelete,
 }) => {
   return (
     <Card className="unitCard h-100" onClick={onClick}>
@@ -41,6 +45,20 @@ export const RenderServerUnitCard: FC<RenderServerUnitCardProps> = ({
       <Card.Footer className="unitCardFooter">
         <img className="unitCardLike" src="/blue-like.png" alt="Лайки" />
         <span>{likes_number ?? 0}</span>
+
+        {is_mine && (
+          <button
+            type="button"
+            className="unitCardDelete"
+            aria-label="Удалить"
+            onClick={(event) => {
+              event.stopPropagation(); // не открывать карточку при удалении
+              onDelete?.();
+            }}
+          >
+            <img src="/trash.png" alt="Удалить" />
+          </button>
+        )}
       </Card.Footer>
     </Card>
   );

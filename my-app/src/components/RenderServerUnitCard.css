@@ -56,3 +56,34 @@
   width: 20px;
   height: 20px;
 }
+.unitCardDelete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.unitCardDelete img {
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  /* иконка белая на прозрачном фоне, на белом футере её не видно — делаем тёмной */
+  filter: brightness(0);
+  opacity: 0.6;
+}
+
+.unitCardDelete:hover {
+  background: rgba(255, 59, 48, 0.12);
+}
+
+.unitCardDelete:active {
+  transform: scale(0.94);
+}
