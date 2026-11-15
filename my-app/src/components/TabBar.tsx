@@ -3,19 +3,16 @@ import { type FC, useState } from "react";
 import { Navbar, Nav, Spinner } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../Routes";
-import { type HandlerRenderServerUnitListItem } from "../api/Api";
 
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux"
 import { setAuthenticatedAction } from "../slices/userSlice"
 import { resetFilterAction } from "../slices/renderServerUnitsSlice"
 
-interface Props {
-  cards: HandlerRenderServerUnitListItem[];
-}
-
-export const TabBar: FC<Props> = ({ cards }) => {
+export const TabBar: FC = () => {
   const isAuth = useSelector((s: any) => s.user.isAuthenticated)
+  // список из store: кнопка «Лента» открывает первую карточку
+  const cards = useSelector((s: any) => s.renderServerUnits.items)
   const dispatch = useDispatch()
 
   const navigate = useNavigate();

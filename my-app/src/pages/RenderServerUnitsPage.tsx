@@ -1,11 +1,10 @@
 import "./RenderServerUnitsPage.css";
 import { type FC, useEffect } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Spinner } from "react-bootstrap";
 import { RamFilter } from "../components/RamFilter";
 import { ROUTES } from "../Routes";
 import { RenderServerUnitCard } from "../components/RenderServerUnitCard";
-import { type AppOutletContext } from "../AppLayout";
 import { useDispatch, useSelector } from "react-redux";
 import {
   MIN_RAM,
@@ -23,18 +22,12 @@ const RenderServerUnitsPage: FC = () => {
     (s: any) => s.renderServerUnits
   );
 
-  const { setCards } = useOutletContext<AppOutletContext>();
   const navigate = useNavigate();
 
   // при открытии страницы загружаем список с учётом сохранённого фильтра
   useEffect(() => {
     dispatch(getRenderServerUnits());
   }, [dispatch]);
-
-  // список для навбара (кнопка «Лента» открывает первую карточку)
-  useEffect(() => {
-    setCards(items);
-  }, [items, setCards]);
 
   const handleSearch = () => {
     dispatch(getRenderServerUnits());
