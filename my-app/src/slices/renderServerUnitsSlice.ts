@@ -50,10 +50,11 @@ export const getRenderServerUnits = createAsyncThunk(
         const { minValue, maxValue } = state.renderServerUnits;
 
         try {
-            const response = await api.api.renderServerUnitsList({
-                min: minValue,
-                max: maxValue,
-            });
+            // secure: true — отправляем токен (если он есть), чтобы бэкенд вернул is_mine
+            const response = await api.api.renderServerUnitsList(
+                { min: minValue, max: maxValue },
+                { secure: true }
+            );
             return response.data.renderServerUnits ?? [];
         } catch {
             // Если бэкенд недоступен, гостю показываем mock-данные
@@ -75,9 +76,11 @@ export const getRenderServerUnit = createAsyncThunk(
         const state = getState() as { user: { isAuthenticated: boolean } };
 
         try {
+            // secure: true — отправляем токен (если он есть), чтобы бэкенд вернул is_liked
             const response = await api.api.renderServerUnitsDetail(
                 id,
-                next ? { next: "true" } : undefined
+                next ? { next: "true" } : undefined,
+                { secure: true }
             );
             const unit = response.data.renderServerUnit;
             if (!unit) {

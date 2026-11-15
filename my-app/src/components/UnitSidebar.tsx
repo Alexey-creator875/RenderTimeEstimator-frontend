@@ -34,7 +34,7 @@ export const UnitSidebar: FC<Props> = ({ likes, isLiked, canLike, onLike, cores,
       onClick={onLike}
     >
       <SidebarItem
-        icon={isLiked ? "/blue-like.png" : "/like.png"}
+        icon={isLiked ? "/like_filled.png" : "/like.png"}
         alt="Лайки"
         value={likes}
       />
