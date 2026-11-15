@@ -8,6 +8,7 @@ import { type RenderServerUnit } from "../modules/renderServerUnitsApi";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux"
 import { setAuthenticatedAction } from "../slices/userSlice"
+import { resetFilterAction } from "../slices/renderServerUnitsSlice"
 
 interface Props {
   cards: RenderServerUnit[];
@@ -44,6 +45,7 @@ export const TabBar: FC<Props> = ({ cards }) => {
       // локально выходим в любом случае, даже если запрос не прошёл
       localStorage.removeItem("access_token");
       dispatch(setAuthenticatedAction(false));
+      dispatch(resetFilterAction());
       navigate(ROUTES.LOGIN);
     }
   };

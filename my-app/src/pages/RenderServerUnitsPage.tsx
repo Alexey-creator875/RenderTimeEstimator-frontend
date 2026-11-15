@@ -8,26 +8,36 @@ import { ROUTES } from "../Routes";
 import { RenderServerUnitCard } from "../components/RenderServerUnitCard";
 import { type AppOutletContext } from "../AppLayout";
 import { RENDER_SERVER_UNITS_MOCK } from "../modules/mock";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  MIN_RAM,
+  MAX_RAM,
+  setMinValueAction,
+  setMaxValueAction,
+} from "../slices/renderServerUnitsSlice";
 
-const MIN_RAM = 8
-const MAX_RAM = 128
+const filterMock = (minValue: number, maxValue: number) =>
+  RENDER_SERVER_UNITS_MOCK.renderServerUnits.filter((item) =>
+    item.ram >= minValue && item.ram <= maxValue
+  );
 
 const RenderServerUnitsPage: FC = () => {
-  const [minValue, setMinValue] = useState(MIN_RAM);
-  const [maxValue, setMaxValue] = useState(MAX_RAM);
+  const dispatch = useDispatch();
+  const minValue = useSelector((s: any) => s.renderServerUnits.minValue);
+  const maxValue = useSelector((s: any) => s.renderServerUnits.maxValue);
 
-  const [renderServerUnits, setRenderServerUnits] = useState(RENDER_SERVER_UNITS_MOCK.renderServerUnits);
+  // список строится по фильтру из store, чтобы при возврате на страницу он совпадал со слайдерами
+  const [renderServerUnits, setRenderServerUnits] = useState(() => filterMock(minValue, maxValue));
   const { setCards } = useOutletContext<AppOutletContext>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    setCards(RENDER_SERVER_UNITS_MOCK.renderServerUnits);
+    setCards(renderServerUnits);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setCards]);
 
   const applyMock = () => {
-    const results = RENDER_SERVER_UNITS_MOCK.renderServerUnits.filter((item) =>
-      item.ram >= minValue && item.ram <= maxValue
-    );
+    const results = filterMock(minValue, maxValue);
 
     setRenderServerUnits(results);
     setCards(results);
@@ -46,11 +56,11 @@ const RenderServerUnitsPage: FC = () => {
       <RamFilter
         min={MIN_RAM}
         minValue={minValue}
-        setMinValue={setMinValue}
+        setMinValue={(value) => dispatch(setMinValueAction(value))}
 
         max={MAX_RAM}
         maxValue={maxValue}
-        setMaxValue={setMaxValue}
+        setMaxValue={(value) => dispatch(setMaxValueAction(value))}
 
         onApply={handleSearch}
       />
