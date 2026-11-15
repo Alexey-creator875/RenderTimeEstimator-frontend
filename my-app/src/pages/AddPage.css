@@ -6,6 +6,11 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  /* сброс стандартных стилей fieldset */
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
 }
 
 .formSection {

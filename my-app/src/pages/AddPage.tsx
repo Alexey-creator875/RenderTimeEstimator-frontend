@@ -39,7 +39,9 @@ const CreateStep: FC = () => {
   };
 
   return (
-    <form className="addForm" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
+      {/* fieldset с disabled блокирует все поля и кнопки внутри на время запроса */}
+      <fieldset className="addForm" disabled={loading}>
       <div className="formSection mediaSection">
         <div className="mediaUpload">
           <label htmlFor="image" className="mediaLabel mediaLabelImage">
@@ -93,6 +95,7 @@ const CreateStep: FC = () => {
       <button type="submit" className="submitBtn" disabled={loading}>
         {loading ? <Spinner animation="border" size="sm" /> : "Далее"}
       </button>
+      </fieldset>
     </form>
   );
 };
@@ -119,7 +122,9 @@ const PublishStep: FC = () => {
   };
 
   return (
-    <form className="addForm" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
+      {/* fieldset с disabled блокирует все поля и кнопки внутри на время запроса */}
+      <fieldset className="addForm" disabled={loading}>
       <div className="formSection mediaSection">
         <div className="mediaUpload">
           <div className="mediaLabel mediaLabelImage mediaReadonly">
@@ -193,6 +198,7 @@ const PublishStep: FC = () => {
       <button type="submit" className="submitBtn" disabled={loading}>
         {loading ? <Spinner animation="border" size="sm" /> : "Опубликовать"}
       </button>
+      </fieldset>
     </form>
   );
 };
