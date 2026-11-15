@@ -5,6 +5,7 @@ import {
     type HandlerRenderServerUnitListItem,
 } from "../api/Api";
 import { RENDER_SERVER_UNITS_MOCK } from "../modules/mock";
+import { setAuthenticatedAction } from "./userSlice";
 
 export const MIN_RAM = 8;
 export const MAX_RAM = 128;
@@ -148,6 +149,11 @@ const renderServerUnitsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // При входе и выходе сбрасываем карточку ленты: is_liked зависит от пользователя,
+            // поэтому при следующем открытии ленты она будет загружена заново
+            .addCase(setAuthenticatedAction, (state) => {
+                state.current = null;
+            })
             .addCase(getRenderServerUnits.pending, (state) => {
                 state.loading = true;
                 state.error = null;
