@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import { Card, Ratio } from "react-bootstrap";
+import { Card, Ratio, Spinner } from "react-bootstrap";
 import "./RenderServerUnitCard.css";
 
 const DEFAULT_IMAGE = "/default-image.png";
@@ -13,6 +13,8 @@ interface RenderServerUnitCardProps {
   is_mine?: boolean;
   onClick: () => void;
   onDelete?: () => void;
+  deleting?: boolean;
+  deleteDisabled?: boolean;
 }
 
 export const RenderServerUnitCard: FC<RenderServerUnitCardProps> = ({
@@ -24,6 +26,8 @@ export const RenderServerUnitCard: FC<RenderServerUnitCardProps> = ({
   is_mine,
   onClick,
   onDelete,
+  deleting,
+  deleteDisabled,
 }) => {
   return (
     <Card className="unitCard h-100" onClick={onClick}>
@@ -51,12 +55,17 @@ export const RenderServerUnitCard: FC<RenderServerUnitCardProps> = ({
             type="button"
             className="unitCardDelete"
             aria-label="Удалить"
+            disabled={deleteDisabled}
             onClick={(event) => {
               event.stopPropagation(); // не открывать карточку при удалении
               onDelete?.();
             }}
           >
-            <img src="/trash.png" alt="Удалить" />
+            {deleting ? (
+              <Spinner animation="border" size="sm" />
+            ) : (
+              <img src="/trash.png" alt="Удалить" />
+            )}
           </button>
         )}
       </Card.Footer>

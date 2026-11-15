@@ -1,6 +1,6 @@
 import "./LoginPage.css";
 import { type FC, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Spinner } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -13,8 +13,10 @@ export const LoginPage: FC = () => {
 
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  
+  const [loading, setLoading] = useState(false);
+
   const handleLogin = async () => {
+    setLoading(true);
     try {
       const response = await axios.post("/api/sign-in", { login, password });
       localStorage.setItem("access_token", response.data.access_token);
@@ -22,6 +24,8 @@ export const LoginPage: FC = () => {
       navigate(ROUTES.LIST);
     } catch (error) {
       console.error("Ошибка аутентификации", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -36,6 +40,7 @@ export const LoginPage: FC = () => {
             value={login}
             onChange={(e) => setLogin(e.target.value)}
             placeholder="Введите логин"
+            disabled={loading}
           />
         </Form.Group>
         <Form.Group controlId="password" className="loginField">
@@ -45,10 +50,16 @@ export const LoginPage: FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Введите пароль"
+            disabled={loading}
           />
         </Form.Group>
-        <Button type="button" className="loginButton" onClick={handleLogin}>
-          Войти
+        <Button
+          type="button"
+          className="loginButton"
+          onClick={handleLogin}
+          disabled={loading}
+        >
+          {loading ? <Spinner animation="border" size="sm" /> : "Войти"}
         </Button>
       </Form>
     </div>

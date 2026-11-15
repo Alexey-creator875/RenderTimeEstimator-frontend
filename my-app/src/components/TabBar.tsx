@@ -1,6 +1,6 @@
 import "./TabBar.css";
-import { type FC } from "react";
-import { Navbar, Nav } from "react-bootstrap";
+import { type FC, useState } from "react";
+import { Navbar, Nav, Spinner } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../Routes";
 import { type HandlerRenderServerUnitListItem } from "../api/Api";
@@ -26,9 +26,12 @@ export const TabBar: FC<Props> = ({ cards }) => {
   const isAdd = location.pathname === ROUTES.ADD;
   const isLogin = location.pathname === ROUTES.LOGIN;
 
+  const [loggingOut, setLoggingOut] = useState(false);
+
   const goToList = () => navigate(ROUTES.LIST);
 
   const handleLogout = async () => {
+    setLoggingOut(true);
     try {
       await axios.post(
         "/api/sign-out",
@@ -47,6 +50,7 @@ export const TabBar: FC<Props> = ({ cards }) => {
       dispatch(setAuthenticatedAction(false));
       dispatch(resetFilterAction());
       navigate(ROUTES.LOGIN);
+      setLoggingOut(false);
     }
   };
 
@@ -70,8 +74,12 @@ export const TabBar: FC<Props> = ({ cards }) => {
           <img className="tabBarIcon" src="/grid.png" alt="Плитка" />
         </Nav.Link>
         {isAuth ? (
-          <Nav.Link onClick={handleLogout}>
-            <img className="tabBarIcon" src="/logout.png" alt="Выход" />
+          <Nav.Link disabled={loggingOut} onClick={handleLogout}>
+            {loggingOut ? (
+              <Spinner animation="border" size="sm" />
+            ) : (
+              <img className="tabBarIcon" src="/logout.png" alt="Выход" />
+            )}
           </Nav.Link>
         ) : (
           <Nav.Link active={isLogin} onClick={() => navigate(ROUTES.LOGIN)}>

@@ -1,6 +1,6 @@
 import "./UnitSidebar.css";
 import { type FC } from "react";
-import { Button, Image, Stack } from "react-bootstrap";
+import { Button, Image, Spinner, Stack } from "react-bootstrap";
 
 interface ItemProps {
   icon: string;
@@ -23,9 +23,10 @@ interface Props {
   cores: number;
   ram: number;
   onNext: () => void;
+  loading?: boolean;
 }
 
-export const UnitSidebar: FC<Props> = ({ likes, isLiked, canLike, onLike, cores, ram, onNext }) => (
+export const UnitSidebar: FC<Props> = ({ likes, isLiked, canLike, onLike, cores, ram, onNext, loading }) => (
   <Stack gap={3} className="unitSidebar">
     <Button
       variant="link"
@@ -41,8 +42,17 @@ export const UnitSidebar: FC<Props> = ({ likes, isLiked, canLike, onLike, cores,
     </Button>
     <SidebarItem icon="/cores.png" alt="Ядра" value={cores} />
     <SidebarItem icon="/RAM.png" alt="Память" value={`${ram} ГБ`} />
-    <Button variant="link" className="unitSidebarNext" onClick={onNext}>
-      <Image className="unitSidebarIcon" src="/next.png" alt="Далее" />
+    <Button
+      variant="link"
+      className="unitSidebarNext"
+      disabled={loading}
+      onClick={onNext}
+    >
+      {loading ? (
+        <Spinner animation="border" variant="light" />
+      ) : (
+        <Image className="unitSidebarIcon" src="/next.png" alt="Далее" />
+      )}
     </Button>
   </Stack>
 );

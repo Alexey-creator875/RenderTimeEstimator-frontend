@@ -87,3 +87,8 @@
 .unitCardDelete:active {
   transform: scale(0.94);
 }
+
+.unitCardDelete:disabled {
+  cursor: default;
+  opacity: 0.6;
+}

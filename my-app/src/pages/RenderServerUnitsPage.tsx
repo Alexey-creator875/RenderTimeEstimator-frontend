@@ -19,7 +19,7 @@ import { type AppDispatch } from "../store";
 
 const RenderServerUnitsPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { minValue, maxValue, items, loading, error } = useSelector(
+  const { minValue, maxValue, items, loading, error, deletingId } = useSelector(
     (s: any) => s.renderServerUnits
   );
 
@@ -86,6 +86,8 @@ const RenderServerUnitsPage: FC = () => {
               <RenderServerUnitCard
                 onClick={() => handleCardClick(item.id)}
                 onDelete={() => handleDelete(item.id)}
+                deleting={deletingId === item.id}
+                deleteDisabled={deletingId !== null}
                 {...item}
               />
             </Col>

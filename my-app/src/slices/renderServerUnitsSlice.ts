@@ -22,6 +22,7 @@ interface RenderServerUnitsState {
     currentLoading: boolean;
     currentError: string | null;
     likeLoading: boolean;
+    deletingId: number | null;
 }
 
 const initialState: RenderServerUnitsState = {
@@ -34,6 +35,7 @@ const initialState: RenderServerUnitsState = {
     currentLoading: false,
     currentError: null,
     likeLoading: false,
+    deletingId: null,
 };
 
 const filterMock = (minValue: number, maxValue: number) =>
@@ -195,7 +197,14 @@ const renderServerUnitsSlice = createSlice({
             .addCase(likeRenderServerUnit.rejected, (state) => {
                 state.likeLoading = false;
             })
+            .addCase(deleteRenderServerUnit.pending, (state, action) => {
+                state.deletingId = action.meta.arg;
+            })
+            .addCase(deleteRenderServerUnit.rejected, (state) => {
+                state.deletingId = null;
+            })
             .addCase(deleteRenderServerUnit.fulfilled, (state, action) => {
+                state.deletingId = null;
                 // убираем удалённую услугу из списка без повторного запроса
                 state.items = state.items.filter((item) => item.id !== action.payload);
                 if (state.current?.id === action.payload) {

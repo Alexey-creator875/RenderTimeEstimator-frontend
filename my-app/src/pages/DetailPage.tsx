@@ -83,6 +83,7 @@ export const DetailPage: FC = () => {
             cores={pageData.cores ?? 0}
             ram={pageData.ram ?? 0}
             onNext={handleNext}
+            loading={currentLoading}
           />
         </div>
         <div className="detailOverlayLeft">
