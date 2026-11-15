@@ -19,6 +19,7 @@ interface RenderServerUnitsState {
     current: HandlerRenderServerUnitDetail | null;
     currentLoading: boolean;
     currentError: string | null;
+    likeLoading: boolean;
 }
 
 const initialState: RenderServerUnitsState = {
@@ -30,6 +31,7 @@ const initialState: RenderServerUnitsState = {
     current: null,
     currentLoading: false,
     currentError: null,
+    likeLoading: false,
 };
 
 const filterMock = (minValue: number, maxValue: number) =>
@@ -97,6 +99,22 @@ export const getRenderServerUnit = createAsyncThunk(
     }
 );
 
+// Поставить (like = true) или снять (like = false) лайк. Только для авторизованных
+export const likeRenderServerUnit = createAsyncThunk(
+    "renderServerUnits/likeRenderServerUnit",
+    async (
+        { id, like }: { id: number; like: boolean },
+        { rejectWithValue }
+    ) => {
+        try {
+            await api.api.renderServerUnitsLikeCreate(id, { like });
+            return { id, like };
+        } catch {
+            return rejectWithValue("Не удалось изменить лайк");
+        }
+    }
+);
+
 const renderServerUnitsSlice = createSlice({
     name: "renderServerUnits",
     initialState,
@@ -137,6 +155,22 @@ const renderServerUnitsSlice = createSlice({
             .addCase(getRenderServerUnit.rejected, (state, action) => {
                 state.currentLoading = false;
                 state.currentError = (action.payload as string) ?? "Ошибка при загрузке данных";
+            })
+            .addCase(likeRenderServerUnit.pending, (state) => {
+                state.likeLoading = true;
+            })
+            .addCase(likeRenderServerUnit.fulfilled, (state, action) => {
+                state.likeLoading = false;
+                const { id, like } = action.payload;
+                const current = state.current;
+                // бэкенд счётчик не возвращает, поэтому обновляем его локально
+                if (current && current.id === id && current.is_liked !== like) {
+                    current.is_liked = like;
+                    current.likes_number = (current.likes_number ?? 0) + (like ? 1 : -1);
+                }
+            })
+            .addCase(likeRenderServerUnit.rejected, (state) => {
+                state.likeLoading = false;
             });
     },
 });

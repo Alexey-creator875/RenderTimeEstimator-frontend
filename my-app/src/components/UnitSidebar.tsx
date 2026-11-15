@@ -17,14 +17,28 @@ const SidebarItem: FC<ItemProps> = ({ icon, alt, value }) => (
 
 interface Props {
   likes: number;
+  isLiked: boolean;
+  canLike: boolean;
+  onLike: () => void;
   cores: number;
   ram: number;
   onNext: () => void;
 }
 
-export const UnitSidebar: FC<Props> = ({ likes, cores, ram, onNext }) => (
+export const UnitSidebar: FC<Props> = ({ likes, isLiked, canLike, onLike, cores, ram, onNext }) => (
   <Stack gap={3} className="unitSidebar">
-    <SidebarItem icon="/like.png" alt="Лайки" value={likes} />
+    <Button
+      variant="link"
+      className="unitSidebarLike"
+      disabled={!canLike}
+      onClick={onLike}
+    >
+      <SidebarItem
+        icon={isLiked ? "/blue-like.png" : "/like.png"}
+        alt="Лайки"
+        value={likes}
+      />
+    </Button>
     <SidebarItem icon="/cores.png" alt="Ядра" value={cores} />
     <SidebarItem icon="/RAM.png" alt="Память" value={`${ram} ГБ`} />
     <Button variant="link" className="unitSidebarNext" onClick={onNext}>

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UnitDescription } from "../components/UnitDescription";
 import { UnitSidebar } from "../components/UnitSidebar";
 import { ROUTES } from "../Routes";
-import { getRenderServerUnit } from "../slices/renderServerUnitsSlice";
+import { getRenderServerUnit, likeRenderServerUnit } from "../slices/renderServerUnitsSlice";
 import { type AppDispatch } from "../store";
 
 const DEFAULT_VIDEO = "/default-video.mp4";
@@ -15,9 +15,10 @@ export const DetailPage: FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { current, currentLoading, currentError } = useSelector(
+  const { current, currentLoading, currentError, likeLoading } = useSelector(
     (s: any) => s.renderServerUnits
   );
+  const isAuth = useSelector((s: any) => s.user.isAuthenticated);
 
   // показываем карточку только если она соответствует id из адреса
   const pageData = current && String(current.id) === id ? current : null;
@@ -29,6 +30,13 @@ export const DetailPage: FC = () => {
     dispatch(getRenderServerUnit({ id: Number(id) }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, dispatch]);
+
+  const handleLike = () => {
+    if (!pageData || likeLoading) return;
+    dispatch(
+      likeRenderServerUnit({ id: pageData.id, like: !pageData.is_liked })
+    );
+  };
 
   const handleNext = async () => {
     if (!id) return;
@@ -69,6 +77,9 @@ export const DetailPage: FC = () => {
         <div className="detailOverlayRight">
           <UnitSidebar
             likes={pageData.likes_number ?? 0}
+            isLiked={pageData.is_liked ?? false}
+            canLike={isAuth && !likeLoading}
+            onLike={handleLike}
             cores={pageData.cores ?? 0}
             ram={pageData.ram ?? 0}
             onNext={handleNext}

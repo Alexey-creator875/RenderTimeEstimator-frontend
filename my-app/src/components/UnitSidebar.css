@@ -38,3 +38,12 @@
 .unitSidebar .unitSidebarNext:active .unitSidebarIcon {
   transform: scale(0.9);
 }
+.unitSidebar .unitSidebarLike {
+  padding: 0;
+  text-decoration: none;
+}
+
+.unitSidebar .unitSidebarLike:disabled {
+  opacity: 1;
+  cursor: default;
+}
