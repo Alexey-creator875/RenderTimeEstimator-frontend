@@ -3,7 +3,7 @@ import { type FC } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../Routes";
-import { type RenderServerUnit } from "../modules/renderServerUnitsApi";
+import { type HandlerRenderServerUnitListItem } from "../api/Api";
 
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux"
@@ -11,7 +11,7 @@ import { setAuthenticatedAction } from "../slices/userSlice"
 import { resetFilterAction } from "../slices/renderServerUnitsSlice"
 
 interface Props {
-  cards: RenderServerUnit[];
+  cards: HandlerRenderServerUnitListItem[];
 }
 
 export const TabBar: FC<Props> = ({ cards }) => {

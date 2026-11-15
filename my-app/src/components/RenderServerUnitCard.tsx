@@ -5,11 +5,11 @@ import "./RenderServerUnitCard.css";
 const DEFAULT_IMAGE = "/default-image.png";
 
 interface RenderServerUnitCardProps {
-  processor: string;
-  image: string;
-  cores: number;
-  ram: number;
-  likes_number: number
+  processor?: string;
+  image?: string;
+  cores?: number;
+  ram?: number;
+  likes_number?: number;
   onClick: () => void;
 }
 
@@ -28,7 +28,7 @@ export const RenderServerUnitCard: FC<RenderServerUnitCardProps> = ({
           variant="top"
           className="unitCardImage"
           src={image || DEFAULT_IMAGE}
-          alt={processor}
+          alt={processor ?? ""}
         />
       </Ratio>
 
@@ -40,7 +40,7 @@ export const RenderServerUnitCard: FC<RenderServerUnitCardProps> = ({
 
       <Card.Footer className="unitCardFooter">
         <img className="unitCardLike" src="/blue-like.png" alt="Лайки" />
-        <span>{likes_number}</span>
+        <span>{likes_number ?? 0}</span>
       </Card.Footer>
     </Card>
   );

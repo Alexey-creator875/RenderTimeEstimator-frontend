@@ -1,51 +1,55 @@
 import "./DetailPage.css";
-import { type FC, useEffect, useState } from "react";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { type FC, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { UnitDescription } from "../components/UnitDescription";
 import { UnitSidebar } from "../components/UnitSidebar";
-import { type RenderServerUnit } from "../modules/renderServerUnitsApi";
 import { ROUTES } from "../Routes";
-import { type AppOutletContext } from "../AppLayout";
-import { RENDER_SERVER_UNITS_MOCK } from "../modules/mock";
+import { getRenderServerUnit } from "../slices/renderServerUnitsSlice";
+import { type AppDispatch } from "../store";
 
 const DEFAULT_VIDEO = "/default-video.mp4";
 
 export const DetailPage: FC = () => {
-  const [pageData, setPageData] = useState<RenderServerUnit>();
   const { id } = useParams();
   const navigate = useNavigate();
-  const { cards } = useOutletContext<AppOutletContext>();
+  const dispatch = useDispatch<AppDispatch>();
+  const { current, currentLoading, currentError } = useSelector(
+    (s: any) => s.renderServerUnits
+  );
+
+  // показываем карточку только если она соответствует id из адреса
+  const pageData = current && String(current.id) === id ? current : null;
 
   useEffect(() => {
     if (!id) return;
+    // карточка уже загружена (например, после «Далее»), повторный запрос не нужен
+    if (current && String(current.id) === id) return;
+    dispatch(getRenderServerUnit({ id: Number(id) }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, dispatch]);
 
-    const fromList = cards.find((item) => String(item.id) === id);
-    if (fromList) {
-      setPageData(fromList);
-      return;
-    }
-
-    setPageData(
-      RENDER_SERVER_UNITS_MOCK.renderServerUnits.find((renderServerUnit) => String(renderServerUnit.id) === id)
-    )
-  }, [id, cards]);
-
-  const handleNext = () => {
-    if (!id || !cards.length) return;
-    const currentIndex = cards.findIndex(
-      (item) => String(item.id) === id
-    );
-    const nextItem = cards[currentIndex + 1] ?? cards[0];
-    if (nextItem) {
-      navigate(`${ROUTES.DETAIL}/${nextItem.id}`);
+  const handleNext = async () => {
+    if (!id) return;
+    try {
+      const next = await dispatch(
+        getRenderServerUnit({ id: Number(id), next: true })
+      ).unwrap();
+      navigate(`${ROUTES.DETAIL}/${next.id}`);
+    } catch {
+      // ошибка уже записана в store
     }
   };
 
   if (!pageData) {
     return (
       <div className="detailLoader">
-        <Spinner animation="border" />
+        {currentError && !currentLoading ? (
+          <h2>{currentError}</h2>
+        ) : (
+          <Spinner animation="border" />
+        )}
       </div>
     );
   }
@@ -61,21 +65,20 @@ export const DetailPage: FC = () => {
         playsInline
       />
 
-      
       <div className="detailOverlay">
         <div className="detailOverlayRight">
           <UnitSidebar
-            likes={pageData.likes_number}
-            cores={pageData.cores}
-            ram={pageData.ram}
+            likes={pageData.likes_number ?? 0}
+            cores={pageData.cores ?? 0}
+            ram={pageData.ram ?? 0}
             onNext={handleNext}
           />
         </div>
         <div className="detailOverlayLeft">
           <UnitDescription
             key={pageData.id}
-            title={pageData.processor}
-            description={pageData.description}
+            title={pageData.processor ?? ""}
+            description={pageData.description ?? ""}
           />
         </div>
       </div>

@@ -1,54 +1,48 @@
 import "./RenderServerUnitsPage.css";
-import { type FC, useEffect, useState } from "react";
+import { type FC, useEffect } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { Container, Col, Row } from "react-bootstrap";
-// import { getRenderServerUnitsByRam } from "../modules/renderServerUnitsApi";
+import { Container, Col, Row, Spinner } from "react-bootstrap";
 import { RamFilter } from "../components/RamFilter";
 import { ROUTES } from "../Routes";
 import { RenderServerUnitCard } from "../components/RenderServerUnitCard";
 import { type AppOutletContext } from "../AppLayout";
-import { RENDER_SERVER_UNITS_MOCK } from "../modules/mock";
 import { useDispatch, useSelector } from "react-redux";
 import {
   MIN_RAM,
   MAX_RAM,
   setMinValueAction,
   setMaxValueAction,
+  getRenderServerUnits,
 } from "../slices/renderServerUnitsSlice";
-
-const filterMock = (minValue: number, maxValue: number) =>
-  RENDER_SERVER_UNITS_MOCK.renderServerUnits.filter((item) =>
-    item.ram >= minValue && item.ram <= maxValue
-  );
+import { type AppDispatch } from "../store";
 
 const RenderServerUnitsPage: FC = () => {
-  const dispatch = useDispatch();
-  const minValue = useSelector((s: any) => s.renderServerUnits.minValue);
-  const maxValue = useSelector((s: any) => s.renderServerUnits.maxValue);
+  const dispatch = useDispatch<AppDispatch>();
+  const { minValue, maxValue, items, loading, error } = useSelector(
+    (s: any) => s.renderServerUnits
+  );
 
-  // список строится по фильтру из store, чтобы при возврате на страницу он совпадал со слайдерами
-  const [renderServerUnits, setRenderServerUnits] = useState(() => filterMock(minValue, maxValue));
   const { setCards } = useOutletContext<AppOutletContext>();
   const navigate = useNavigate();
 
+  // при открытии страницы загружаем список с учётом сохранённого фильтра
   useEffect(() => {
-    setCards(renderServerUnits);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setCards]);
+    dispatch(getRenderServerUnits());
+  }, [dispatch]);
 
-  const applyMock = () => {
-    const results = filterMock(minValue, maxValue);
-
-    setRenderServerUnits(results);
-    setCards(results);
-  };
+  // список для навбара (кнопка «Лента» открывает первую карточку)
+  useEffect(() => {
+    setCards(items);
+  }, [items, setCards]);
 
   const handleSearch = () => {
-    applyMock();
+    dispatch(getRenderServerUnits());
   };
 
-  const handleCardClick = (renderServerUnitId: number) => {
-    navigate(`${ROUTES.DETAIL}/${renderServerUnitId}`);
+  const handleCardClick = (renderServerUnitId?: number) => {
+    if (renderServerUnitId !== undefined) {
+      navigate(`${ROUTES.DETAIL}/${renderServerUnitId}`);
+    }
   };
 
   return (
@@ -63,25 +57,33 @@ const RenderServerUnitsPage: FC = () => {
         setMaxValue={(value) => dispatch(setMaxValueAction(value))}
 
         onApply={handleSearch}
+        disabled={loading}
       />
 
-      {!renderServerUnits.length ? (
-          <div>
-            <h1>Ничего не найдено</h1>
-          </div>
-        ) : (
-          <Row xs={2} className="g-3">
-            {renderServerUnits.map((item) => (
-              <Col key={item.id}>
-                <RenderServerUnitCard
-                  onClick={() => handleCardClick(item.id)}
-                  {...item}
-                />
-              </Col>
-            ))}
-          </Row>
-        )
-      }
+      {loading ? (
+        <div className="text-center">
+          <Spinner animation="border" />
+        </div>
+      ) : error ? (
+        <div>
+          <h1>{error}</h1>
+        </div>
+      ) : !items.length ? (
+        <div>
+          <h1>Ничего не найдено</h1>
+        </div>
+      ) : (
+        <Row xs={2} className="g-3">
+          {items.map((item: any) => (
+            <Col key={item.id}>
+              <RenderServerUnitCard
+                onClick={() => handleCardClick(item.id)}
+                {...item}
+              />
+            </Col>
+          ))}
+        </Row>
+      )}
     </Container>
   );
 };

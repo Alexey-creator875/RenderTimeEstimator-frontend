@@ -11,10 +11,11 @@ interface Props {
   maxValue: number;
   setMaxValue: (value: number) => void;
 
-  onApply: () => void; 
+  onApply: () => void;
+  disabled?: boolean;
 }
 
-export const RamFilter: FC<Props> = ({ min, minValue, setMinValue, max, maxValue, setMaxValue, onApply }) => {
+export const RamFilter: FC<Props> = ({ min, minValue, setMinValue, max, maxValue, setMaxValue, onApply, disabled }) => {
   const handleMin = (value: number) => setMinValue(Math.min(value, maxValue));
   const handleMax = (value: number) => setMaxValue(Math.max(value, minValue));
 
@@ -49,7 +50,7 @@ export const RamFilter: FC<Props> = ({ min, minValue, setMinValue, max, maxValue
           />
         </div>
 
-        <Button type="submit">Применить</Button>
+        <Button type="submit" disabled={disabled}>Применить</Button>
       </div>
     </Form>
   )

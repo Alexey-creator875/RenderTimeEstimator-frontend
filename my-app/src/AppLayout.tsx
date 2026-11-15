@@ -1,16 +1,16 @@
 import { type FC, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { type RenderServerUnit } from "./modules/renderServerUnitsApi";
+import { type HandlerRenderServerUnitListItem } from "./api/Api";
 import { TabBar } from "./components/TabBar";
 import "./MobileApp.css";
 
 export interface AppOutletContext {
-  cards: RenderServerUnit[];
-  setCards: (cards: RenderServerUnit[]) => void;
+  cards: HandlerRenderServerUnitListItem[];
+  setCards: (cards: HandlerRenderServerUnitListItem[]) => void;
 }
 
 export const AppLayout: FC = () => {
-  const [cards, setCards] = useState<RenderServerUnit[]>([]);
+  const [cards, setCards] = useState<HandlerRenderServerUnitListItem[]>([]);
 
   return (
     <div className="appShell">
